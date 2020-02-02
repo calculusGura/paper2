@@ -1,0 +1,20 @@
+Component,Lifecycle,Cost,DP,importance,cost-sens
+Crude Separatation,20,110,SeperatorVolume,1,1
+,,,HeatedCrudeTemperature,1,1
+,,,NoOfStages,1,1
+Gas Compressor,10,150,GasInjectionPressure,1,1
+,,,GasLiftCapacity,1,1
+Water Treatment System,10,120,SeawaterLiftPumpCapacity,1,1
+,,,WaterInjectionPressure,1,1
+,,,ReverseOsmosisSystem,1,1
+Power Generator,10,90,GenerationCapacity,1,1
+Turret System,20,130,ChainTableDiameter,1,1
+,,,NoOfSwivelStacks,1,1
+,,,MooringLoadCapacity,1,1
+,,,TurretWeight,1,1
+Hull,20,160,Length,1,1
+,,,Breadth,1,1
+,,,Depth,1,1
+,,,Material,1,1
+,,,NoOfBulkhead,1,1
+,,,NoOfPAU,1,1

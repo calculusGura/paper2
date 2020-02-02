@@ -1,0 +1,5 @@
+Component,Lifecycle,Cost,DP,importance,cost-sens
+Hull,30,150,size,1,1
+Topside,25,200,capa,1,1
+Mooring,20,100,numOfChain,1,1
+,,,numOfRiser,1,1
