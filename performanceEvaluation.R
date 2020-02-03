@@ -1,6 +1,6 @@
-evaluateAchivedFunction <- function(configurationDesign, productData){
+evaluateAchivedFunction <- function(configurationDesign, systemInformation){
   
-  qfd <- productData@qfd
+  qfd <- systemInformation@qfd
   startIndex <- grep("D1", colnames(configurationDesign));
   endIndex <- startIndex + nrow(productData@dpList) - 1;
   

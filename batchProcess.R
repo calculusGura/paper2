@@ -1,7 +1,6 @@
 #setwd("C:/Users/buzzs/Dropbox/paper2"); ##windows
 #setwd("/home/ubuntu/paper2");  ##aws ssh
 #setwd("/Users/Jeong/Dropbox/paper2"); ##osx
-
 setwd("/home/buzzsongs/paper2"); ##chrome os
 
 rm(list = ls())
@@ -12,6 +11,7 @@ library("EnvStats");
 library("ggplot2");
 
 
+#date modelling
 source("dataClasses.R");
 source("generateInformationModel.R");
 
@@ -28,13 +28,16 @@ csvData4 <- read.csv("./productData/oes1.csv");
 oeData <- generateOEsModel(csvData4, systemInformationData);
 
 
+source("baseDesign.R");
+source("qfdCalculation.R");
+baseDesigns <- generateBaseDesigns(oeData@requiredFunc, systemInformationData);
 
-source("configurationDesign.R");
-#source("qfdCalculation.R");
-#baseDesigns <- generateBaseDesigns(oeData@requiredFunc, systemInformationData);
+
+source("preparedComponent.R");
 preparedComponentList <- generatePreparedComponents(baseDesigns, systemInformationData);
 
 
+source("configurationDesign.R");
 configurations <- generateConfigurationDesignList(1000, systemInformationData, preparedComponentList);
 configurations <- checkDesignFeasibility(configurations, systemInformationData@constraint);
 

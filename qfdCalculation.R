@@ -14,7 +14,6 @@ calculateRequiredDesign <- function(oeData, qfd){
   requiredDP <- requiredDP + 1;
   requiredDP[is.nan(requiredDP) | is.infinite(requiredDP)] <- 0;
   
-  browser();
   #calculate required DP levels to maximize the achived function.
   for(i in 1:numberOfDP){
     requiredDesign[,i] <- calcuateOptimalDPvalue(qfd[,i], requiredDP[,i]);

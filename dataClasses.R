@@ -15,6 +15,13 @@ setClass("PreparedComponentData",
                         costMatrix = "matrix"));
 
 
+#setGeneric("test", function(object) standardGeneric("test"))
+#setMethod("test", "PreparedComponentData", function(object) object@code)
+#showMethowd("test")
+
+
+
+
 setClass("OEData",
          representation(duration = "matrix",
                         requiredFunc = "matrix", 
