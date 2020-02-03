@@ -1,24 +1,25 @@
-evaluateAchivedFunction <- function(configurationDesign, systemInformation){
-  
+evaluateAchivedFunction <- function(configurationList, systemInformation){
+
   qfd <- systemInformation@qfd
-  startIndex <- grep("D1", colnames(configurationDesign));
-  endIndex <- startIndex + nrow(productData@dpList) - 1;
+  startIndex <- grep("D1", colnames(configurationList))[1] #to beside other DPs start with D1 such as D11, D12..;
+  endIndex <- startIndex + nrow(systemInformation@dpList) - 1;
   
-  iterationNo <- nrow(configurationDesign);
-  afResult <- NULL;
+  iterationNo <- nrow(configurationList);
+  achivedFunctions <- NULL;
 
   for(i in 1:iterationNo){
-    temp <- calculateAchievedFunction(configurationDesign[i,startIndex:endIndex], qfd);  
-    afResult <- rbind(afResult, t(temp));
+    configurationDesign <- configurationList[i,startIndex:endIndex];
+    temp <- calculateAchievedFunction(configurationDesign, qfd); #qfdCalculation
+    achivedFunctions <- rbind(achivedFunctions, t(temp)); 
   }
-  colnames(afResult) <- rownames(qfd);
+  colnames(achivedFunctions) <- rownames(qfd);
 
-  return(afResult);
+  return(achivedFunctions);
 }
 
 
 
-evaluateUtility <- function (achivedFunctionByDesigns, productData, oeData){
+evaluateUtility <- function (achivedFunctionByDesigns, systemInformation, oeData){
 
   utilities <- NULL;
   requiredFunc <- oeData@requiredFunc;
@@ -28,14 +29,16 @@ evaluateUtility <- function (achivedFunctionByDesigns, productData, oeData){
   numberOfFunc <-  ncol(achivedFunctionByDesigns);
   numberOfDesigns <- nrow(achivedFunctionByDesigns);
   
+
   for(i in 1:numberOfOEs){
+    browser();
     rqFc <- matrix(requiredFunc[,i], ncol = numberOfFunc);
     fcIm <- matrix(functionImportance[,i], ncol = numberOfFunc);
     rqFc <- rqFc[rep(1, numberOfDesigns), ];
     fcIm <- fcIm[rep(1, numberOfDesigns), ]; 
 
     performanceResult <- achivedFunctionByDesigns / rqFc;
-    performanceResult <- evaluateFunctionPerformance(performanceResult, productData@funcList[,2]);
+    performanceResult <- evaluateFunctionPerformance(performanceResult, systemInformation@funcList[,2]);
     performanceResult <- (performanceResult - 1);
 
     performanceResult <- performanceResult * fcIm;
@@ -56,7 +59,7 @@ evaluateUtility <- function (achivedFunctionByDesigns, productData, oeData){
 
 
 evaluateFunctionPerformance <- function(scoreSheet, funcChar1){
-  
+  browser();
   scoreSheet1 <- scoreSheet;
   scoreSheet2 <- scoreSheet;
 
@@ -68,13 +71,13 @@ evaluateFunctionPerformance <- function(scoreSheet, funcChar1){
   funcChar1 <- funcChar1[rep(1, nrow(scoreSheet)), ];
 
   scoreSheet1 <- (scoreSheet1 * funcChar1) - (funcChar1 - 1);
-  
+  browser();
   scoreSheet1[scoreSheet1<=0] <- 0;
   scoreSheet2[scoreSheet2!=0] <- 1;
   
   result <- scoreSheet1 + scoreSheet2;
   result[which(is.nan(result))] <- ifelse(scoreSheet[which(is.nan(result))] >= 1, 1, 0);
-  
+  browser();
   return(result);
 }
 

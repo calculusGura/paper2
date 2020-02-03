@@ -51,7 +51,7 @@ calcuateOptimalDPvalue <- function(qfd, requiredDPvalue){
   ##difference between requiend and achieved
   result <- (requiredDPvalue[,rep(1,length(candidateDPvalues))]) - achievedFuncList;
   ##neutralize the suplus achived function 
-  result[result<0] <- 0;
+  result[result>0] <- 0;
   ##find the minized
   result <- colSums(result);
   optimalDPValue <- candidateDPvalues[which.min(result)];
@@ -67,19 +67,18 @@ calcuateOptimalDPvalue <- function(qfd, requiredDPvalue){
 #calculate the level of function from configuration design (via QFD)
 #design as ()
 #qfd as matrix
-calculateAchievedFunction <- function(design, qfd){
+calculateAchievedFunction <- function(configurationDesign, qfd){
   
-  numberOfFM <- nrow(qfd);
-  achievedFunction <- matrix(data=0, nrow = numberOfFM);
+  numberOfFunctions <- nrow(qfd);
+  achievedFunction <- matrix(data=0, nrow = numberOfFunctions);
 
-  design <- (design - 1); #the difference from standard design
-  #design <- rbind(design, design[rep(1, (numberOfFM-1)), ]); 
-  design <- design[rep(1, numberOfFM), ]; 
+  configurationDesign <- (configurationDesign - 1); #the difference from standard design
+  configurationDesign <- configurationDesign[rep(1, numberOfFunctions), ]; 
   
   temp <- qfd;
   temp[which(temp!=0)] <- 1
   
-  achievedFunction <- design * qfd;
+  achievedFunction <- configurationDesign * qfd;
   achievedFunction <- achievedFunction + temp;   #restore the actual level of functions
   achievedFunction <- apply(achievedFunction, 1, function(x) geoMean(x[x!=0]));
 
