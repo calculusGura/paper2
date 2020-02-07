@@ -38,19 +38,20 @@ preparedComponentList <- generatePreparedComponents(baseDesigns, systemInformati
 
 
 source("configurationDesign.R");
-configurations <- generateConfigurationDesignList(1000, systemInformationData, preparedComponentList);
-configurations <- checkDesignFeasibility(configurations, systemInformationData@constraint);
-
-
-
-
+configurationList <- generateConfigurationDesignList(1000, systemInformationData, preparedComponentList);
+configurationList <- checkDesignFeasibility(configurations, systemInformationData@constraint);
 
 
 source("performanceEvaluation.R");
+achivedFunction <- evaluateAchivedFunction(configurationList, systemInformationData);
+utilities <- evaluateUtility(achivedFunction, systemInformationData, oeData);
+
+
 source("costEvaluation.R");
-achivedFunction <- evaluateAchivedFunction(configurations, productData);
 initialBuildCost <- evaluateBuildCost(configurations, preparedComponentList);
-utilities <- evaluateUtility(achivedFunction, productData, oeData);
+
+
+
 
 
 result <- cbind(configurations, achivedFunction, initialBuildCost, utilities);
